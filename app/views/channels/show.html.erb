@@ -1,0 +1,43 @@
+<div class="row" data-controller="channel" data-channel-id="<%= @channel.id %>">
+  <div class="col-sm-2">
+    <div class="d-flex justify-content-between">
+      <h6>Channels</h6>
+      <%= link_to icon("fas", "plus"), new_channel_path %>
+    </div>
+
+    <% Channel.all.each do |channel| %>
+      <div class="d-flex justify-content-between">
+        <%= link_to channel.name, channel %>
+        <% if current_user.channels.include?(channel) %>
+          <%= link_to icon("fas", "times"), channel_channel_user_path(channel), method: :delete %>
+        <% end %>
+      </div>
+    <% end %>
+
+    <hr />
+
+    <div class="d-flex justify-content-between">
+      <h6>Users</h6>
+    </div>
+    <% @channel.users.each do |user| %>
+      <div>
+        <%= user.name %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="col-sm-10">
+    <div data-target="channel.messages">
+      <%= render @channel.messages %>
+    </div>
+
+    <% if current_user.channels.include?(@channel) %>
+      <%= form_with model: [@channel, Message.new], data: { action: "ajax:success->channel#clearMessage" } do |form| %>
+        <%= form.text_field :body, class: "form-control", data: { target: "channel.newMessage" } %>
+      <% end %>
+
+    <% else %>
+      <%= link_to "Join #{@channel.name}", channel_channel_user_path(@channel), method: :post %>
+    <% end %>
+  </div>
+</div>
