@@ -1,0 +1,25 @@
+<div class="sticky-top pt-3">
+  <div class="d-flex justify-content-between">
+    <h6>Channels</h6>
+    <%= link_to icon("fas", "plus"), new_channel_path %>
+  </div>
+
+  <ul class="list-group">
+    <% Channel.all.each do |channel| %>
+      <%= tag.li data: { controller: "unreads", unreads_id: channel.id }, class: ["list-group-item d-flex justify-content-between align-items-center", ("active" if active_channel?(channel))] do %>
+        <%= link_to_if !active_channel?(channel), channel.name, channel %>
+      <% end %>
+    <% end %>
+  </ul>
+
+  <hr />
+
+  <div class="d-flex justify-content-between">
+    <h6>Users</h6>
+  </div>
+  <% @channel.users.each do |user| %>
+    <div>
+      <%= user.name %>
+    </div>
+  <% end %>
+</div>

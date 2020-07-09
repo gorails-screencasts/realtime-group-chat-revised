@@ -5,5 +5,7 @@
 <%= csrf_meta_tags %>
 <%= csp_meta_tag %>
 
+<%= tag.meta name: "username", content: current_user.username if user_signed_in? %>
+
 <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
 <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>

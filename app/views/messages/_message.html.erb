@@ -1,3 +1,8 @@
+<% if !@bar_shown && @last_read_at && message.created_at > @last_read_at %>
+  <% @bar_shown = true %>
+  <div class="border-bottom border-danger"></div>
+<% end %>
+
 <div>
   <div class="font-weight-bold"><%= message.user.name %></div>
   <div><%= message.body %></div>

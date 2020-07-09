@@ -10,7 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_06_140739) do
+ActiveRecord::Schema.define(version: 2020_07_09_185135) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "announcements", force: :cascade do |t|
     t.datetime "published_at"
@@ -22,10 +25,11 @@ ActiveRecord::Schema.define(version: 2020_05_06_140739) do
   end
 
   create_table "channel_users", force: :cascade do |t|
-    t.integer "channel_id", null: false
-    t.integer "user_id", null: false
+    t.bigint "channel_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "last_read_at"
     t.index ["channel_id"], name: "index_channel_users_on_channel_id"
     t.index ["user_id"], name: "index_channel_users_on_user_id"
   end
@@ -48,8 +52,8 @@ ActiveRecord::Schema.define(version: 2020_05_06_140739) do
   end
 
   create_table "messages", force: :cascade do |t|
-    t.integer "channel_id", null: false
-    t.integer "user_id", null: false
+    t.bigint "channel_id", null: false
+    t.bigint "user_id", null: false
     t.text "body"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -69,7 +73,7 @@ ActiveRecord::Schema.define(version: 2020_05_06_140739) do
   end
 
   create_table "services", force: :cascade do |t|
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.string "provider"
     t.string "uid"
     t.string "access_token"
@@ -94,6 +98,7 @@ ActiveRecord::Schema.define(version: 2020_05_06_140739) do
     t.boolean "admin", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "username"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
